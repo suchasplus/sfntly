@@ -111,7 +111,7 @@ public class Font {
     Unknown(-1),
     Unicode(0),
     Macintosh(1),
-    ISO(2),
+    @Deprecated ISO(2),
     Windows(3),
     Custom(4);
 
@@ -154,7 +154,8 @@ public class Font {
     ISO10646(2),
     Unicode2_0_BMP(3),
     Unicode2_0(4),
-    UnicodeVariationSequences(5);
+    UnicodeVariationSequences(5),
+    UnicodeUCS4(6);
 
     private final int value;
 
