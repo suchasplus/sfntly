@@ -45,7 +45,7 @@ public abstract class CMap extends SubTable implements Iterable<Integer> {
 
     final int value;
 
-    private CMapFormat(int value) {
+    CMapFormat(int value) {
       this.value = value;
     }
 
@@ -216,6 +216,22 @@ public abstract class CMap extends SubTable implements Iterable<Integer> {
   public String toString() {
     return String.format(
         "cmap: %s, %s, Data Size=%#x", cmapId(), CMapFormat.valueOf(format()), data.length());
+  }
+
+  public static String readableString(int platformId, int encodingId) {
+    Font.PlatformId platform = Font.PlatformId.valueOf(platformId);
+    switch (platform) {
+      case Unicode :
+        return platform + ", " + Font.UnicodeEncodingId.valueOf(encodingId);
+      case Macintosh:
+        return platform + ", " + Font.MacintoshEncodingId.valueOf(encodingId);
+      case Windows:
+        return platform + ", " + Font.WindowsEncodingId.valueOf(encodingId);
+      case ISO:
+      case Custom:
+      default:
+        return platform + ", " + Font.UnicodeEncodingId.Unknown;
+    }
   }
 
   public abstract static class Builder<T extends CMap> extends SubTable.Builder<T> {

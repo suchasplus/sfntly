@@ -107,7 +107,8 @@ public final class CMapTable extends SubTableContainerTable implements Iterable<
 
     @Override
     public String toString() {
-      return String.format("pid = %d, eid = %d", platformId, encodingId);
+      return String.format("pid = %d, eid = %d, %s", platformId, encodingId,
+              CMap.readableString(platformId, encodingId));
     }
   }
 
@@ -325,8 +326,7 @@ public final class CMapTable extends SubTableContainerTable implements Iterable<
       int offset = data.readULongAsInt(offsetForEncodingRecord(index) + EncodingRecord.offset);
       CMapId cmapId = CMapId.getInstance(platformId, encodingId);
 
-      CMap.Builder<? extends CMap> builder = CMap.Builder.getBuilder(data, offset, cmapId);
-      return builder;
+      return CMap.Builder.getBuilder(data, offset, cmapId);
     }
 
     @Override
@@ -445,8 +445,7 @@ public final class CMapTable extends SubTableContainerTable implements Iterable<
      * @param data the data to copy for the new cmap builder
      * @return a new cmap builder initialized with the cmap id and a copy of the data
      */
-    public CMap.Builder<? extends CMap> newCMapBuilder(CMapId cmapId, ReadableFontData data)
-        throws IOException {
+    public CMap.Builder<? extends CMap> newCMapBuilder(CMapId cmapId, ReadableFontData data) {
       WritableFontData wfd = WritableFontData.createWritableFontData(data.size());
       data.copyTo(wfd);
       CMap.Builder<? extends CMap> builder = CMap.Builder.getBuilder(wfd, 0, cmapId);
